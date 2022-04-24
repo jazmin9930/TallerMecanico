@@ -1,0 +1,89 @@
+******************************** PROCEDIMIENTOS ALMACENADOS *******************************
+
+--------- PROCEDIMIENTOS ALMACENADOS PARA EL CRUD DE LOS CLIENTES --------------
+
+------- PARA INSERTAR CLIENTES -----------
+
+CREATE OR REPLACE PROCEDURE insertar_cliente (idc varchar (50),
+	                                          n1 varchar (50),
+											  n2 varchar(50),
+											  a1 varchar (50), 
+											  a2 varchar (50), 
+											  tel varchar (50),
+											  ciuda varchar (50),
+											 cal varchar (50),
+											 col varchar (50),
+											 corre varchar (100))
+LANGUAGE plpgsql AS $$
+BEGIN 
+    INSERT INTO cliente (id_cliente,nombre1,nombre2,apellido1,apellido2,telefono,ciudad,calle,colonia,correo) VALUES (idc,n1,n2,a1,a2,tel,ciuda,cal,col,corre) RETURNING id_cliente INTO idc;
+END 
+$$;
+
+
+
+
+
+
+
+
+
+-------- ACTUALIZAR CORREGIDO 1.0 ---------
+CREATE OR REPLACE PROCEDURE actualizar_cliente1 ( idc varchar (50),
+	                                          n1 varchar (50),
+											  n2 varchar(50),
+											  a1 varchar (50), 
+											  a2 varchar (50), 
+											  tel varchar (50),
+											  ciuda varchar (50),
+											 cal varchar (50),
+											 col varchar (50),
+											 corre varchar (100))
+LANGUAGE plpgsql AS $$
+BEGIN 
+  UPDATE cliente SET id_cliente = idc,
+                     nombre1 =n1, 
+					 nombre2=n2,
+					 apellido1=a1,
+					 apellido2=a2,
+					 telefono = tel,
+					 ciudad = ciuda,
+					 calle = cal,
+					 colonia = col,
+					 correo=corre  WHERE id_cliente=idc RETURNING id_cliente INTO idc;
+END
+$$;
+
+
+
+
+
+-------- PARA BORRAR CLIENTES -------------
+
+CREATE OR REPLACE PROCEDURE borrar_cliente (idc varchar (50))
+LANGUAGE plpgsql AS $$
+BEGIN 
+DELETE FROM cliente WHERE id_cliente = idc RETURNING id_cliente INTO idc ;
+END
+$$;
+----- EJEMPLO PARA PROBAR EL PROCEDIMIENTO ALMACENADO -------
+CALL borrar_cliente ('1') 
+   
+
+
+
+
+
+
+--------- CLIENTES CON MAS NUMERO DE CITAS --------------------------------
+CREATE OR REPLACE PROCEDURE mas_citas ()
+									  
+									  
+LANGUAGE plpgsql AS $$
+BEGIN
+
+PERFORM id_cliente,nombre1,apellido1,apellido2 FROM cliente WHERE id_cliente IN (SELECT cita.id_cliente FROM Cita GROUP BY cita.id_cliente HAVING COUNT (DISTINCT (id_cita ))>1  ) ;
+
+
+END
+$$;

@@ -1,0 +1,28 @@
+-------------------------------------  VISTAS --------------------------------------------------
+--- ******** VISTA PARA LOS CLIENTES ************
+CREATE VIEW vista_cliente 
+AS SELECT nombre1,nombre2,apellido1,apellido2,telefono,correo FROM cliente ;
+
+
+select * FROM vista_cliente;
+
+--********** VISTA PARA LAS CITAS *****************
+CREATE VIEW vista_cita
+AS SELECT nombre_cliente,primer_apellido,segundo_apellido,telefono,fecha_entrada,hora_entrada,tipo_servicio,estado FROM cita;
+
+SELECT * FROM vista_cita;
+
+
+--********* VISTA PARA EMPLEADOS ******************
+CREATE VIEW vista_empleado
+AS SELECT nombre1,nombre2,apellido1,apellido2,telefono,tipo FROM empleado;
+
+SELECT * FROM vista_empleado;
+
+
+
+--********  VISTA PARA LOS VEHICULOS **************
+CREATE VIEW vista_vehiculo 
+AS SELECT  placa,modelo,numero_motor FROM vehiculo;
+
+SELECT * FROM vista_vehiculo;

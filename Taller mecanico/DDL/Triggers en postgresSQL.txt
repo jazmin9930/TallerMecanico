@@ -1,0 +1,39 @@
+------------------------------- TRIGERS PARA LAS BITACORAS ----------------------------------
+SELECT * INTO actualizar_cita FROM Cita;
+
+select * from cita;
+select * from actualizar_cita;
+delete from actualizar_cita;
+
+CREATE OR REPLACE FUNCTION actualizar_trigger() RETURNS TRIGGER LANGUAGE plpgsql AS $$
+DECLARE BEGIN
+   INSERT INTO actualizar_cita VALUES (new.nombre_cliente, new.primer_apellido,new.segundo_apellido,new.telefono,new.tipo_servicio,new.placa_carro);
+   RETURN NULL;
+END
+$$;
+
+CREATE TRIGGER cita_actualizada AFTER UPDATE 
+ON cita FOR EACH ROW
+EXECUTE PROCEDURE actualizar_trigger();
+
+
+INSERT INTO cita VALUES ('N1a2b345','0801-1999-06011','katerin','maradiaga','lagos','5599-7755','2022-04-23','03:07:00','mantenimiento','HAT5793','Ingresado');
+
+UPDATE cita SET telefono = '8985-5389';
+
+------------------------------- TRIGGER PARA ACTUALIZACION DE ESTADO DE LOS VEHICULOS -----------
+SELECT * INTO actualizar_estado FROM Cita;
+delete from  actualizar_estado;
+
+CREATE OR REPLACE FUNCTION actualizar_estado_trigger() RETURNS TRIGGER LANGUAGE plpgsql AS $$
+DECLARE BEGIN
+
+INSERT INTO actualizar_estado VALUES (NEW.estado);
+RETURN NULL;
+
+END
+$$;
+
+CREATE TRIGGER estado_actualizado AFTER UPDATE 
+ON cita FOR EACH ROW
+EXECUTE PROCEDURE actualizar_estado_trigger();

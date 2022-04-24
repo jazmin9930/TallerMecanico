@@ -1,0 +1,92 @@
+*********************** BASE DE DATOS DEL TALLER MECANICO ***************************
+
+
+---------- TABLA DE LOS CLIENTES ------
+CREATE TABLE cliente (id_cliente varchar (50)  primary key not null,
+					  Nombre1 varchar (50),
+					  Nombre2 varchar (50),
+					  Apellido1 varchar (50),
+					  Apellido2 varchar (50),
+					  telefono varchar (50),
+					  Ciudad varchar (50),
+                      calle varchar (50),
+                      colonia varchar(50),
+                      correo varchar (100) unique
+					 );
+					 
+-----TABLA DE LOS TELEFONOS DEL CLIENTE
+CREATE TABLE Telefonos ( id_telefono varchar (50) primary key not null,
+						telefono varchar (15),
+						id_cliente varchar (50),
+						FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente)
+						);					
+						
+---- TABLA PARA LAS CITAS
+CREATE TABLE Cita (id_cita varchar (50) primary key not null,
+                                   id_cliente varchar (50),
+                                   nombre_cliente varchar (50),
+                                   Primer_apellido varchar (50),
+                                   segundo_apellido varchar (50),
+                                   telefono varchar (20),
+				                   fecha_entrada date ,
+                                   hora_entrada time ,
+                                   tipo_servicio varchar (100),
+				                   placa_carro varchar (20),
+                                   estado varchar (50),
+				                   FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente)
+				                   );	
+								   
+								   
+----- TABLA DE VEHICULOS
+CREATE TABLE vehiculo (placa varchar (50)  primary key not null,
+                       id_cliente varchar (50),
+					   modelo varchar (50),select * from cita;	
+					   numero_motor varchar (50),
+					   FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente)
+					   
+);				
+
+------ TABLA DE EMPLEADO
+CREATE TABLE empleado ( id_empleado varchar (50) primary key not null,
+					   nombre1 varchar (50),
+					   nombre2 varchar (50),
+					   apellido1 varchar (50),
+					   apellido2 varchar (50),
+					   telefono varchar (15),
+					   tipo varchar (20),
+					   id_empleado_asesor varchar (50) null  
+					   
+					   );
+					   
+
+
+----- TABLA DE MANTENIMIENTO
+CREATE TABLE Mantenimiento (id_mantenimiento varchar (50) primary key not null,
+                            placa varchar (50),
+							id_empleado varchar (50),
+							descripcion varchar (50),
+							FOREIGN KEY (placa) REFERENCES vehiculo (placa),
+							FOREIGN KEY (id_empleado) REFERENCES empleado (id_empleado)
+				
+);					
+-------- TABLA DE REPARACION
+CREATE TABLE Reparacion (id_reparacion varchar (50) primary key not null,
+						    placa varchar (50),
+							descripcion varchar (50),
+                 			id_empleado varchar (50) ,
+							FOREIGN KEY (placa) REFERENCES vehiculo (placa),
+							FOREIGN KEY (id_empleado) REFERENCES empleado (id_empleado)
+				
+);
+
+-------- TABLA QUE RELACIONA A EMPLEADO CON CITA
+CREATE TABLE Asigna (id_asigna varchar (50) primary key not null,
+					 id_empleado varchar (50),
+					 id_cita varchar (50) ,
+					 FOREIGN KEY (id_cita) REFERENCES cita (id_cita),
+					 FOREIGN KEY (id_empleado) REFERENCES empleado (id_empleado)
+					 
+);
+
+
+
